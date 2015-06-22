@@ -11,6 +11,7 @@ import android.view.ViewGroup;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+    private static final String TAG = MainActivityFragment.class.getSimpleName();
 
     public MainActivityFragment() {
     }
