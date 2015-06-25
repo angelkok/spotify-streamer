@@ -1,7 +1,9 @@
 package com.example.r626926.spotify_streamer;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -42,6 +52,9 @@ public class ArtistSearchFragment extends Fragment {
         };
         List<String> artistsData = new ArrayList<String>(Arrays.asList(data));
 
+        FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
+        fetchArtistsTask.execute();
+
         mArtistsAdapter =
                 new ArrayAdapter<String>(
                         getActivity(),
@@ -55,5 +68,40 @@ public class ArtistSearchFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listview_artists);
         listView.setAdapter(mArtistsAdapter);
         return rootView;
+    }
+
+    public class FetchArtistsTask extends AsyncTask<Void, Void, Void> {
+        private final String TAG = FetchArtistsTask.class.getSimpleName();
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            SpotifyApi api = null;
+            SpotifyService spotify = null;
+            String query = "cohen";
+
+            try {
+                api = new SpotifyApi();
+                spotify = api.getService();
+
+                spotify.searchArtists(query, new Callback<ArtistsPager>() {
+                    @Override
+                    public void success(ArtistsPager pager, Response response) {
+                        List<Artist> artists = pager.artists.items;
+                        for (Artist artist : artists) {
+                            Log.d(TAG, artist.name);
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i(TAG, error.toString());
+                    }
+
+                });
+            }
+            catch (Exception e) {
+                Log.e(TAG, "Exception: ", e);
+            }
+            return null;
+        }
     }
 }
