@@ -53,7 +53,7 @@ public class ArtistSearchFragment extends Fragment {
         List<String> artistsData = new ArrayList<String>(Arrays.asList(data));
 
         FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
-        fetchArtistsTask.execute();
+        fetchArtistsTask.execute("cohen");
 
         mArtistsAdapter =
                 new ArrayAdapter<String>(
@@ -70,30 +70,40 @@ public class ArtistSearchFragment extends Fragment {
         return rootView;
     }
 
-    public class FetchArtistsTask extends AsyncTask<Void, Void, Void> {
+    public class FetchArtistsTask extends AsyncTask<String, Void, List<Artist>> {
         private final String TAG = FetchArtistsTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected List<Artist> doInBackground(String... params) {
             SpotifyApi api = null;
             SpotifyService spotify = null;
-            String query = "cohen";
+
+            if (params.length == 0) {
+                return null;
+            }
 
             try {
                 api = new SpotifyApi();
                 spotify = api.getService();
 
-                spotify.searchArtists(query, new Callback<ArtistsPager>() {
+                spotify.searchArtists(params[0], new Callback<ArtistsPager>() {
                     @Override
                     public void success(ArtistsPager pager, Response response) {
                         List<Artist> artists = pager.artists.items;
-                        for (Artist artist : artists) {
-                            Log.d(TAG, artist.name);
-                        }
+                        updateArtistsAdapter(artists);
                     }
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.i(TAG, error.toString());
+                        Log.e(TAG, error.toString());
+                    }
+
+                    private void updateArtistsAdapter(List<Artist> artists) {
+                        String[] names = new String[artists.size()];
+                        for(int i=0; i < artists.size(); i++ ) {
+                            names[i] = artists.get(i).name;
+                        }
+                        mArtistsAdapter.clear();
+                        mArtistsAdapter.addAll(names);
                     }
 
                 });
