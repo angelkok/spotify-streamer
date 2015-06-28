@@ -56,7 +56,8 @@ public class ArtistSearchFragment extends Fragment {
         fetchArtistsTask.execute("cohen");
 
         mArtistsAdapter =
-                new ArrayAdapter<String>(
+//                new ArrayAdapter<String>(
+                new ArtistListAdapter(
                         getActivity(),
                         R.layout.list_item_artists,
                         R.id.listview_artist,
