@@ -7,11 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -29,7 +27,7 @@ import retrofit.client.Response;
 public class ArtistSearchFragment extends Fragment {
     private static final String TAG = ArtistSearchFragment.class.getSimpleName();
 
-    ArrayAdapter<String> mArtistsAdapter;
+    ArtistListAdapter mArtistsAdapter;
 
     public ArtistSearchFragment() {
     }
@@ -37,20 +35,18 @@ public class ArtistSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String[] data = {};
-        List<String> artistsData = new ArrayList<String>(Arrays.asList(data));
+        ArrayList<Artist> artistsData = new ArrayList<Artist>();
+
+        mArtistsAdapter =
+                new ArtistListAdapter(
+                        getActivity(),
+                        R.layout.list_item_artist,
+                        R.id.listview_artist_name,
+                        artistsData
+                );
 
         FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
         fetchArtistsTask.execute("cohen");
-
-        mArtistsAdapter =
-//                new ArrayAdapter<String>(
-                new ArtistListAdapter(
-                        getActivity(),
-                        R.layout.list_item_artists,
-                        R.id.listview_artist,
-                        artistsData
-                );
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -87,12 +83,8 @@ public class ArtistSearchFragment extends Fragment {
                     }
 
                     private void updateArtistsAdapter(List<Artist> artists) {
-                        String[] names = new String[artists.size()];
-                        for(int i=0; i < artists.size(); i++ ) {
-                            names[i] = artists.get(i).name;
-                        }
                         mArtistsAdapter.clear();
-                        mArtistsAdapter.addAll(names);
+                        mArtistsAdapter.addAll(artists);
                     }
 
                 });
