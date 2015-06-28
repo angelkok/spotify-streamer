@@ -37,19 +37,7 @@ public class ArtistSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String[] data = {
-                "Artist 1",
-                "Artist 2",
-                "Artist 3",
-                "Artist 4",
-                "Artist 5",
-                "Artist 6",
-                "Artist 7",
-                "Artist 8",
-                "Artist 9",
-                "Artist 10",
-                "Artist 11",
-        };
+        String[] data = {};
         List<String> artistsData = new ArrayList<String>(Arrays.asList(data));
 
         FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
