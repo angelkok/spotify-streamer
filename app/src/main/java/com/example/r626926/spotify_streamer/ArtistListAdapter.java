@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -31,6 +34,12 @@ public class ArtistListAdapter extends ArrayAdapter<Artist> {
         }
         TextView artistName = (TextView) convertView.findViewById(R.id.listview_artist_name);
         artistName.setText(artist.name);
+
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.list_item_artist_image);
+        if (artist.images.size() > 0) {
+            int imageIndex = artist.images.size() - 1;
+            Picasso.with(parent.getContext()).load(artist.images.get(imageIndex).url.toString()).into(iconView);
+        }
 
         return convertView;
     }
