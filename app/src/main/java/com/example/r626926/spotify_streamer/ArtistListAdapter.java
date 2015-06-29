@@ -32,7 +32,7 @@ public class ArtistListAdapter extends ArrayAdapter<Artist> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_artist, parent, false);
         }
-        TextView artistName = (TextView) convertView.findViewById(R.id.listview_artist_name);
+        TextView artistName = (TextView) convertView.findViewById(R.id.list_item_artist_name);
         artistName.setText(artist.name);
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.list_item_artist_image);

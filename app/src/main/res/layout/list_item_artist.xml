@@ -12,6 +12,6 @@ android:layout_height="match_parent">
     <TextView android:text="@string/list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listview_artist_name" />
+        android:id="@+id/list_item_artist_name" />
 
 </LinearLayout>
