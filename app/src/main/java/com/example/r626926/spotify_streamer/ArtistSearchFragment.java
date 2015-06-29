@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,8 +107,13 @@ public class ArtistSearchFragment extends Fragment {
                     }
 
                     private void updateArtistsAdapter(List<Artist> artists) {
-                        mArtistsAdapter.clear();
-                        mArtistsAdapter.addAll(artists);
+                        if (artists.size() > 0) {
+                            mArtistsAdapter.clear();
+                            mArtistsAdapter.addAll(artists);
+                        }
+                        else {
+                            Toast.makeText(getActivity(), getString(R.string.no_results), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 });

@@ -37,7 +37,7 @@ public class ArtistListAdapter extends ArrayAdapter<Artist> {
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.list_item_artist_image);
         if (artist.images.size() > 0) {
-            int imageIndex = artist.images.size() - 1;
+            int imageIndex = 1;
             Picasso.with(parent.getContext()).load(artist.images.get(imageIndex).url.toString()).into(iconView);
         }
 
