@@ -1,6 +1,7 @@
 package com.example.r626926.spotify_streamer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -81,7 +82,12 @@ public class ArtistSearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "click");
+                Artist artist = mArtistsAdapter.getItem(position);
+                Log.d(TAG, "name: "+artist.name);
+                Intent intent = new Intent(getActivity(), TracksActivity.class);
+                intent.putExtra("artist_id", artist.id);
+                intent.putExtra("artist_name", artist.name);
+                startActivity(intent);
             }
         });
         return rootView;
